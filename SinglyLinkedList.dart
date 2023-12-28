@@ -51,18 +51,6 @@ class SinglyLinkedList {
     previous!.next = current.next;
   }
 
-  // void replaceNodeValue(dynamic oldData, dynamic newData) {
-  //   Node? current = head;
-
-  //   while (current != null && current.data != oldData) {
-  //     current = current.next;
-  //   }
-
-  //   if (current != null) {
-  //     current.data = newData;
-  //   }
-  // }
-
   void printList() {
     Node? current = head;
     while (current != null) {

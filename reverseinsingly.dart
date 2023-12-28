@@ -29,10 +29,8 @@ class singlyLinkedlist {
   void reversorder() {
     LinkNode? curr = head;
     LinkNode? prevalue;
-    LinkNode? nextvalue;
-
     while (curr != null) {
-      nextvalue = curr.next;
+      LinkNode? nextvalue = curr.next;
       curr.next = prevalue;
       prevalue = curr;
       curr = nextvalue;

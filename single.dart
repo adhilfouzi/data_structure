@@ -44,10 +44,9 @@ class singly {
 
   void reverse() {
     Node? curr = head;
-    Node? nextval;
     Node? pre;
     while (curr != null) {
-      nextval = curr.next;
+      Node? nextval = curr.next;
       curr.next = pre;
       pre = curr;
       curr = nextval;
