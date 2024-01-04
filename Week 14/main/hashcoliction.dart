@@ -9,37 +9,36 @@ class Node {
 class HashTable {
   List<Node?> table = [];
   int size;
+
   HashTable(this.size) {
-    table = List.generate(size, (index) => null);
+    table = List.generate(size, (index) => null); // Initialize table with nulls
   }
 
-  add(String key, dynamic data) {
+  void add(String key, dynamic data) {
+    // An error add same value
     int index = key.hashCode % size;
     Node newNode = Node(key, data);
     if (table[index] == null) {
       table[index] = newNode;
     } else {
       newNode.next = table[index];
-      table[index] = newNode;
+      table[index] = newNode; // Handle collisions using chaining
     }
   }
 
-  remove(String key) {
+  void remove(String key) {
     int index = key.hashCode % size;
     if (table[index] != null) {
       if (table[index]?.next == null) {
         print('element removed :${table[index]!.key}');
-        table[index] = null;
-
-        return;
+        table[index] = null; // Remove single node
       } else {
         Node? temp = table[index];
         Node? prev;
         while (temp != null) {
           if (temp.key == key) {
             print('removed ${temp.key}');
-            prev!.next = temp.next;
-
+            prev!.next = temp.next; // Remove node within chain
             return;
           }
           prev = temp;
@@ -51,7 +50,7 @@ class HashTable {
     }
   }
 
-  get(String key) {
+  void get(String key) {
     int index = key.hashCode % size;
     if (table[index] == null) {
       print('empty');
@@ -60,7 +59,8 @@ class HashTable {
     }
   }
 
-  getAll(table) {
+  void getAll() {
+    // Print all key-value pairs in the hash table
     for (int i = 0; i < table.length; i++) {
       if (table[i] != null) {
         Node? curr = table[i];
@@ -90,9 +90,9 @@ class HashTable {
 main() {
   HashTable hashTable = HashTable(5);
   hashTable.add('sugith', 24);
-  hashTable.add('fugith', 29);
+  hashTable.add('sugith', 29);
   hashTable.add('ram', 21);
   hashTable.remove('fugith');
   hashTable.get('sugith');
-  hashTable.getAll(hashTable.table);
+  hashTable.getAll(); // Display all key-value pairs
 }
