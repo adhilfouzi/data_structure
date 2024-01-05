@@ -8,12 +8,11 @@ List bubble(List arr) {
       }
     }
   }
-
   return arr;
 }
 
 void main() {
-  List arr = [45, 42, 63, 8, 75, 91, 24, 63];
-  print('ori=$arr');
-  print('after ${bubble(arr)}');
+  List arr = [1, 3, 9, 7, 6, 4, 2, 8];
+  print(arr);
+  print('before :${bubble(arr)}');
 }

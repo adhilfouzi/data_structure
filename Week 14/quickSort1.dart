@@ -1,13 +1,13 @@
 List<int> quicksort(List<int> arr) {
-  sortway(arr, 0, arr.length - 1);
+  sorteway(arr, 0, arr.length - 1);
   return arr;
 }
 
-void sortway(List<int> arr, int start, int end) {
-  if (start >= end) return;
-  int pi = (start + end) ~/ 2;
-  int l = start;
-  int r = end;
+void sorteway(List<int> arr, int st, int ed) {
+  if (st >= ed) return;
+  int pi = (st + ed) ~/ 2;
+  int l = st;
+  int r = ed;
   while (l <= r) {
     while (arr[l] < arr[pi]) {
       l++;
@@ -15,14 +15,14 @@ void sortway(List<int> arr, int start, int end) {
     while (arr[r] > arr[pi]) {
       r--;
     }
-    if (l <= l) {
+    if (l <= r) {
       swap(arr, l, r);
       l++;
       r--;
     }
-    sortway(arr, start, r);
-    sortway(arr, l, end);
   }
+  sorteway(arr, st, r);
+  sorteway(arr, l, ed);
 }
 
 void swap(List<int> arr, int l, int r) {
@@ -32,7 +32,7 @@ void swap(List<int> arr, int l, int r) {
 }
 
 void main() {
-  List<int> arr = [1, 9, 3, 5, 7, 2, 6, 4, 8];
+  List<int> arr = [1, 9, 2, 8, 3, 7, 4, 6, 5, 0];
   print('before $arr');
-  print('after : ${quicksort(arr)}');
+  print('after :${quicksort(arr)}');
 }

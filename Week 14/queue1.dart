@@ -19,35 +19,48 @@ class Queue {
 
   void dequeue() {
     if (front == null) {
-      print('queue is empty');
-      return;
-    }
-    front = front!.next;
-    if (front == null) {
-      rear = front;
+      print('Queue is empty');
+    } else {
+      front = front!.next;
+      if (front == null) rear = front;
     }
   }
 
-  void display() {
+  void get(int val) {
     if (front == null) {
       print('Queue is empty');
-      return;
+    } else {
+      Node? curr = front;
+      int i = 0;
+      while (curr != null) {
+        if (val == i) {
+          print('element is ${curr.val}');
+        }
+        i++;
+        curr = curr.next;
+      }
     }
-    Node? curr = front;
-    while (curr != null) {
-      print(curr.val);
-      curr = curr.next;
+  }
+
+  void getall() {
+    if (front == null) {
+      print('Queue is empty');
+    } else {
+      Node? curr = front;
+      while (curr != null) {
+        print('element is ${curr.val}');
+        curr = curr.next;
+      }
     }
   }
 }
 
 void main() {
-  Queue list = Queue();
-  list.enqueue(12);
-  list.enqueue(6);
-  list.enqueue(8);
-  list.enqueue(10);
-
-  list.dequeue();
-  list.display();
+  Queue lst = Queue();
+  lst.enqueue(5);
+  lst.enqueue(7);
+  lst.enqueue(6);
+  lst.enqueue(5);
+  lst.enqueue(11);
+  lst.getall();
 }
