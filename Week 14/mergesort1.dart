@@ -1,13 +1,13 @@
-List<int> mergesort(List<int> arr) {
+List mergesort(List arr) {
   if (arr.length <= 1) return arr;
   int mid = arr.length ~/ 2;
-  List<int> left = arr.sublist(0, mid);
-  List<int> right = arr.sublist(mid);
-  return merge(mergesort(left), mergesort(right));
+  List l = arr.sublist(0, mid);
+  List r = arr.sublist(mid);
+  return merge(mergesort(l), mergesort(r));
 }
 
-List<int> merge(List<int> l, List<int> r) {
-  List<int> re = [];
+List merge(List l, List r) {
+  List re = [];
   int i = 0, j = 0;
   while (i < l.length && j < r.length) {
     if (l[i] < r[j]) {
@@ -25,7 +25,7 @@ List<int> merge(List<int> l, List<int> r) {
 }
 
 void main() {
-  List<int> arr = [7, 5, 3, 1, 9, 4, 6, 8, 2, 0];
+  List arr = [3, 6, 9, 8, 5, 2, 1, 4, 7];
   print(arr);
-  print('before :${mergesort(arr)}');
+  print(mergesort(arr));
 }

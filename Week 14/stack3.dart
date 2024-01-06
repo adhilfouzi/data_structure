@@ -18,27 +18,49 @@ class Stack {
 
   void pop() {
     if (top == null) {
-      print('Stack is empty');
-      return;
+      print('the stack is underflow');
+    } else {
+      top = top!.next;
     }
-    top = top!.next;
   }
 
-  void display() {
-    Node? curr = top;
-    while (curr != null) {
-      print(curr.val);
-      curr = curr.next;
+  void peek(int val) {
+    if (top == null) {
+      print('the stack is underflow');
+    } else {
+      Node? curr = top;
+      int i = 0;
+      while (curr != null) {
+        if (i == val) {
+          print('element is ${curr.val}');
+          return;
+        }
+        curr = curr.next;
+        i++;
+      }
+    }
+  }
+
+  void getall() {
+    if (top == null) {
+      print('the stack is underflow');
+    } else {
+      Node? curr = top;
+      while (curr != null) {
+        print('${curr.val}');
+        curr = curr.next;
+      }
     }
   }
 }
 
 void main() {
   Stack lst = Stack();
-  lst.push(4);
-  lst.push(64);
-  lst.push(9);
   lst.push(5);
+  lst.push(15);
+  lst.push(25);
+  lst.push(35);
+  lst.push(45);
   lst.pop();
-  lst.display();
+  lst.getall();
 }

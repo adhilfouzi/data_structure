@@ -11,71 +11,57 @@ class HashTable {
   HashTable(this.size) {
     table = List.generate(size, (index) => null);
   }
-
-  void set(String key, value) {
-    int index = key.hashCode % size;
-    Node? newvalue = Node(key, value);
-    if (table[index] == null) {
-      table[index] = newvalue;
+  void add(String key, valuue) {
+    Node? newval = Node(key, valuue);
+    int ind = key.hashCode % size;
+    if (table[ind] == null) {
+      table[ind] = newval;
     } else {
-      Node? curr = table[index];
+      Node? curr = table[ind];
       while (curr != null) {
         if (curr.key == key) {
-          curr.value = value;
+          curr.value = valuue;
           return;
         }
         curr = curr.next;
       }
-      newvalue.next = table[index];
-      table[index] = newvalue;
+      newval.next = table[ind];
+      table[ind] = newval;
     }
   }
 
   void remove(String key) {
-    int index = key.hashCode % size;
-    if (table[index] == null) {
-      print('invaild');
+    int ind = key.hashCode % size;
+    if (table[ind] == null) {
+      print('invaild key');
     } else {
-      Node? curr = table[index];
+      Node? curr = table[ind];
       if (curr!.key == key) {
-        table[index] = curr.next;
+        table[ind] = curr.next;
       } else {
-        while (curr!.next != null) {
+        while (curr!.next == null) {
           if (curr.next!.key == key) {
             curr.next = curr.next!.next;
             return;
           }
           curr = curr.next;
         }
-        print('key not found');
-      }
-    }
-  }
-
-  void get(String key) {
-    int index = key.hashCode % size;
-    Node? curr = table[index];
-    if (curr == null) {
-      print('invaild key');
-      return;
-    } else {
-      while (curr != null) {
-        if (curr.key == key) {
-          print('element is ${curr.key}: ${curr.value}');
-          return;
-        }
-        curr = curr.next;
+        print('key not fund');
       }
     }
   }
 
   void getall() {
     for (int i = 0; i < table.length; i++) {
-      Node? curr = table[i];
       if (table[i] != null) {
-        while (curr != null) {
-          print('${curr.key}:${curr.value}');
-          curr = curr.next;
+        Node? curr = table[i];
+        if (curr!.next == null) {
+          print('${curr.key}: ${curr.value}');
+        } else {
+          while (curr != null) {
+            print('${curr.key}: ${curr.value}');
+            curr = curr.next;
+          }
         }
       }
     }
@@ -84,10 +70,9 @@ class HashTable {
 
 void main() {
   HashTable lst = HashTable(4);
-  lst.set('aju', 12);
-  lst.set('raji', 10);
-  lst.set('appu', 15);
-  lst.set('ninu', 18);
-  lst.get('appu');
+  lst.add('1', 'ajmal');
+  lst.add('2', 'arshak');
+  lst.add('3', 'amal');
+  lst.remove('2');
   lst.getall();
 }

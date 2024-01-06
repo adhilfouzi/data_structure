@@ -8,46 +8,61 @@ class Queue {
   Node? front;
   Node? rear;
   void enqueue(int val) {
-    Node? newval = Node(val);
+    Node? newvalue = Node(val);
     if (front == null) {
-      front = rear = newval;
+      front = rear = newvalue;
     } else {
-      rear!.next = newval;
-      rear = newval;
+      rear!.next = newvalue;
+      rear = newvalue;
     }
   }
 
   void dequeue() {
     if (front == null) {
       print('Queue is Empty');
-      return;
     } else {
       front = front!.next;
-      if (front == null) {
-        rear = front;
+      if (front == null) rear = front;
+    }
+  }
+
+  void get(int val) {
+    if (front == null) {
+      print('Queue is empty');
+    } else {
+      Node? curr = front;
+      int i = 0;
+      while (curr != null) {
+        if (i == val) {
+          print('element is ${curr.val}');
+          return;
+        }
+        curr = curr.next;
+        i++;
       }
     }
   }
 
-  void display() {
+  void getall() {
     if (front == null) {
       print('Queue is empty');
-      return;
-    }
-    Node? curr = front;
-    while (curr != null) {
-      print(curr.val);
-      curr = curr.next;
+    } else {
+      Node? curr = front;
+      while (curr != null) {
+        print('element is ${curr.val}');
+        curr = curr.next;
+      }
     }
   }
 }
 
 void main() {
   Queue lst = Queue();
-  lst.enqueue(89);
-  lst.enqueue(45);
-  lst.enqueue(4);
-  lst.enqueue(33);
+  lst.enqueue(6);
+  lst.enqueue(56);
+  lst.enqueue(67);
+  lst.enqueue(68);
+  lst.enqueue(69);
   lst.dequeue();
-  lst.display();
+  lst.getall();
 }
