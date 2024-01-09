@@ -100,7 +100,7 @@ void main() {
   root = insert(root, 18);
   root = insert(root, 20);
 
-  root = deleteNode(root, 19);
+  // root = deleteNode(root, 19);
 
   List<int> arr = [];
   inorder(root, arr);
