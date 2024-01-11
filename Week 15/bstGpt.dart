@@ -64,7 +64,6 @@ class BinarySearchTree {
       } else if (node.right == null) {
         return node.left;
       }
-// Add the non-null assertion operator (!)
       node.value = _findMinValue(node.right)!;
 
       node.right = _removeRecursive(node.right, node.value);
@@ -116,31 +115,34 @@ class BinarySearchTree {
     }
   }
 
-  //closest value
-  int closestValue(int target) {
+  ///findClosestNode
+  int findClosestNode(int val) {
     if (root == null) {
-      print('BST is empty');
+      print('Root is empty');
       return -1;
     }
+    return _findClosestNode(root, val, root)!.value;
+  }
 
-    TreeNode? current = root;
-    int closest = current!.value;
-
-    while (current != null) {
-      if ((target - closest).abs() > (target - current.value).abs()) {
-        closest = current.value;
-      }
-
-      if (target < current.value) {
-        current = current.left;
-      } else if (target > current.value) {
-        current = current.right;
-      } else {
-        break;
-      }
+  TreeNode? _findClosestNode(TreeNode? node, int target, TreeNode? closest) {
+    if (node == null) {
+      return closest;
     }
 
-    return closest;
+    if (node.value == target) {
+      return node;
+    }
+
+    if (closest == null ||
+        (node.value - target).abs() < (closest.value - target).abs()) {
+      closest = node; // Update closest node if the current node is closer
+    }
+
+    if (target < node.value) {
+      return _findClosestNode(node.left, target, closest);
+    } else {
+      return _findClosestNode(node.right, target, closest);
+    }
   }
 }
 
@@ -155,7 +157,7 @@ void main() {
 
   print("In-order traversal before removal:");
   bst.preOrderTraversal();
-  print('cloeset element of 15: ${bst.closestValue(15)}');
+  print('cloeset element of 15: ${bst.findClosestNode(4)}');
   // bst.remove(5);
 
   // print("\nIn-order traversal after removal:");
