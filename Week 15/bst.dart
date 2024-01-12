@@ -4,92 +4,124 @@ class Node {
   Node(this.val);
 }
 
-class BinarySearchTree {
+class BST {
   Node? root;
   void insert(int val) {
-    root = _inserter(val, root);
+    root = _insert(val, root);
   }
 
-  Node? _inserter(int val, Node? node) {
+  Node? _insert(int val, Node? node) {
     if (node == null) {
       return Node(val);
     }
     if (val < node.val) {
-      node.left = _inserter(val, node.left);
+      node.left = _insert(val, node.left);
     } else if (val > node.val) {
-      node.right = _inserter(val, node.right);
+      node.right = _insert(val, node.right);
     }
     return node;
   }
 
-  void search(int val) {
-    print('element is $val : ${_searchkey(val, root)}');
+  void isit() {
+    _orNot(root);
   }
 
-  bool _searchkey(int val, Node? node) {
-    if (node == null) {
-      return false;
-    }
-    if (node.val == val) {
+  void _orNot(Node? root) {
+    int? pre;
+    bool _inOrder(Node? node) {
+      if (node != null) {
+        if (!_inOrder(node.left)) {
+          return false;
+        }
+        if (pre != null && node.val <= pre!) {
+          return false;
+        }
+        pre = node.val;
+        if (!_inOrder(node.right)) {
+          return false;
+        }
+      }
       return true;
-    } else if (val < node.val) {
-      return _searchkey(val, node.left);
+    }
+
+    bool bts = _inOrder(root);
+
+    if (bts) {
+      print('its a BTS');
     } else {
-      return _searchkey(val, node.right);
+      print('its Not a BTS');
     }
   }
 
-  void per() {
+  void emoty() {
+    if (root == null) {
+      print('root is emty');
+      return;
+    }
+  }
+
+  void search(int val) {
+    emoty();
+    print(' $val element contains : ${_search(root, val)}');
+  }
+
+  bool _search(Node? node, int val) {
+    if (node == null) return false;
+    if (val < node.val) {
+      return _search(node.left, val);
+    } else if (val > node.val) {
+      return _search(node.right, val);
+    } else {
+      return true;
+    }
+  }
+
+  void preOrder() {
     print('PreOrder');
-    _pre(root);
+    _preorder(root);
   }
 
-  void _pre(Node? node) {
+  void _preorder(Node? node) {
     if (node != null) {
       print(node.val);
-      _pre(node.left);
-      _pre(node.right);
+      _preorder(node.left);
+      _preorder(node.right);
     }
   }
 
-  void iner() {
-    print('InOrder');
-
-    _in(root);
+  void inOrder() {
+    print('inOrder');
+    _inorder(root);
   }
 
-  void _in(Node? node) {
+  void _inorder(Node? node) {
     if (node != null) {
-      _in(node.left);
+      _inorder(node.left);
       print(node.val);
-      _in(node.right);
+      _inorder(node.right);
     }
   }
 
-  void pos() {
-    print('PosOrder');
-    _pos(root);
+  void postOrder() {
+    print('PostOrder');
+    _postorder(root);
   }
 
-  void _pos(Node? node) {
+  void _postorder(Node? node) {
     if (node != null) {
-      _pos(node.left);
-      _pos(node.right);
+      _postorder(node.left);
+      _postorder(node.right);
       print(node.val);
     }
   }
 
   void close(int val) {
-    if (root == null) {
-      print('root is empty');
-    }
-    print('Closest element of $val : ${_close(root, val, root)!.val}');
+    print('closest element of $val is ${_close(root, val, root)!.val}');
   }
 
   Node? _close(Node? node, int val, Node? close) {
     if (node == null) return close;
     if (node.val == val) return node;
-
     if (close == null || (node.val - val).abs() < (close.val - val).abs()) {
       close = node;
     }
@@ -99,18 +131,51 @@ class BinarySearchTree {
       return _close(node.right, val, close);
     }
   }
+
+  void delect(int val) {
+    emoty();
+    root = _delect(val, root);
+  }
+
+  Node? _delect(int val, Node? node) {
+    if (node == null) {
+      print('value not fund');
+      return null;
+    }
+    if (val < node.val) {
+      node.left = _delect(val, node.left);
+    } else if (val > node.val) {
+      node.right = _delect(val, node.right);
+    } else {
+      if (node.left == null) {
+        return node.right;
+      } else if (node.right == null) {
+        return node.left;
+      }
+      node.val = _find(node.right)!;
+      node.right = _delect(node.val, node.right);
+    }
+    return node;
+  }
+
+  int? _find(Node? node) {
+    while (node?.left != null) {
+      node = node!.left;
+    }
+    return node!.val;
+  }
 }
 
 void main() {
-  BinarySearchTree tree = BinarySearchTree();
-  tree.insert(5);
-  tree.insert(15);
-  tree.insert(12);
-  tree.insert(45);
-  tree.insert(85);
-  tree.insert(96);
-  tree.per();
-  tree.iner();
-  tree.pos();
-  tree.close(8);
+  BST bst = BST();
+  bst.insert(4);
+  bst.insert(6);
+  bst.insert(3);
+  bst.insert(2);
+  bst.insert(1);
+  bst.insert(5);
+  // bst.close(-5);
+  bst.isit();
+  // bst.inOrder();
+  // bst.postOrder();
 }

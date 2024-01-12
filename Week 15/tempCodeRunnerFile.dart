@@ -1,5 +1,5 @@
-  // bst.insert(10);
-  // bst.insert(5);
-  // bst.insert(15);
-  // bst.insert(3);
-  // bst.insert(7);
+  print(trie.search("apple"));
+  print(trie.search("app"));
+  print(trie.startsWith("app"));
+  trie.insert("app");
+  print(trie.search("app"));

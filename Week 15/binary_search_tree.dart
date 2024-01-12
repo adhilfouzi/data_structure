@@ -144,6 +144,40 @@ class BinarySearchTree {
       return _findClosestNode(node.right, target, closest);
     }
   }
+
+  // Check if a tree is a Binary Search Tree (BST)
+  void yes() {
+    print('Is the tree BST or not: ${bstOrNot(root)}');
+  }
+
+  bool bstOrNot(TreeNode? root) {
+    int? prevValue;
+
+    bool inOrder(TreeNode? node) {
+      if (node != null) {
+        if (!inOrder(node.left)) {
+          return false;
+        }
+
+        if (prevValue != null && node.value <= prevValue!) {
+          print('It is not a BST');
+          return false;
+        }
+
+        prevValue = node.value;
+        if (!inOrder(node.right)) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    bool isBST = inOrder(root);
+    if (isBST) {
+      print('It is a BST');
+    }
+    return isBST;
+  }
 }
 
 void main() {
@@ -156,7 +190,7 @@ void main() {
   bst.insert(7);
 
   print("In-order traversal before removal:");
-  bst.preOrderTraversal();
+  bst.yes();
   print('cloeset element of 15: ${bst.findClosestNode(4)}');
   // bst.remove(5);
 
