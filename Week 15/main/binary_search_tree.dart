@@ -64,7 +64,7 @@ class BinarySearchTree {
       } else if (node.right == null) {
         return node.left;
       }
-      node.value = _findMinValue(node.right)!;
+      node.value = _findMinValue(node.right);
 
       node.right = _removeRecursive(node.right, node.value);
     }
@@ -72,11 +72,11 @@ class BinarySearchTree {
     return node;
   }
 
-  int? _findMinValue(TreeNode? node) {
-    while (node?.left != null) {
-      node = node!.left;
+  int _findMinValue(TreeNode? node) {
+    while (node!.left != null) {
+      node = node.left;
     }
-    return node?.value;
+    return node.value;
   }
 
   void preOrderTraversal() {
@@ -188,12 +188,13 @@ void main() {
   bst.insert(15);
   bst.insert(3);
   bst.insert(7);
+  bst.remove(15);
 
-  print("In-order traversal before removal:");
-  bst.yes();
-  print('cloeset element of 15: ${bst.findClosestNode(4)}');
+  // print("In-order traversal before removal:");
+  // bst.yes();
+  // print('cloeset element of 15: ${bst.findClosestNode(4)}');
   // bst.remove(5);
 
   // print("\nIn-order traversal after removal:");
-  // bst.inOrderTraversal();
+  bst.inOrderTraversal();
 }

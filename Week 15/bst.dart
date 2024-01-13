@@ -14,168 +14,106 @@ class BST {
     if (node == null) {
       return Node(val);
     }
-    if (val < node.val) {
+    if (node.val > val) {
       node.left = _insert(val, node.left);
-    } else if (val > node.val) {
+    } else if (node.val <= val) {
       node.right = _insert(val, node.right);
     }
     return node;
   }
 
-  void isit() {
-    _orNot(root);
+  void pre() {
+    _pre(root);
   }
 
-  void _orNot(Node? root) {
-    int? pre;
-    bool _inOrder(Node? node) {
-      if (node != null) {
-        if (!_inOrder(node.left)) {
-          return false;
-        }
-        if (pre != null && node.val <= pre!) {
-          return false;
-        }
-        pre = node.val;
-        if (!_inOrder(node.right)) {
-          return false;
-        }
-      }
-      return true;
-    }
-
-    bool bts = _inOrder(root);
-
-    if (bts) {
-      print('its a BTS');
-    } else {
-      print('its Not a BTS');
-    }
-  }
-
-  void emoty() {
-    if (root == null) {
-      print('root is emty');
-      return;
-    }
-  }
-
-  void search(int val) {
-    emoty();
-    print(' $val element contains : ${_search(root, val)}');
-  }
-
-  bool _search(Node? node, int val) {
-    if (node == null) return false;
-    if (val < node.val) {
-      return _search(node.left, val);
-    } else if (val > node.val) {
-      return _search(node.right, val);
-    } else {
-      return true;
-    }
-  }
-
-  void preOrder() {
-    print('PreOrder');
-    _preorder(root);
-  }
-
-  void _preorder(Node? node) {
+  void _pre(Node? node) {
     if (node != null) {
       print(node.val);
-      _preorder(node.left);
-      _preorder(node.right);
+      _pre(node.left);
+      _pre(node.right);
     }
   }
 
   void inOrder() {
-    print('inOrder');
-    _inorder(root);
+    _inOrder(root);
   }
 
-  void _inorder(Node? node) {
+  void _inOrder(Node? node) {
     if (node != null) {
-      _inorder(node.left);
+      _inOrder(node.left);
       print(node.val);
-      _inorder(node.right);
+      _inOrder(node.right);
     }
   }
 
   void postOrder() {
-    print('PostOrder');
-    _postorder(root);
+    _postOrder(root);
   }
 
-  void _postorder(Node? node) {
+  void _postOrder(Node? node) {
     if (node != null) {
-      _postorder(node.left);
-      _postorder(node.right);
+      _postOrder(node.left);
+      _postOrder(node.right);
       print(node.val);
     }
   }
 
-  void close(int val) {
-    print('closest element of $val is ${_close(root, val, root)!.val}');
+  void search(int val) {
+    print('$val element in tree is ${_search(val, root)}');
   }
 
-  Node? _close(Node? node, int val, Node? close) {
-    if (node == null) return close;
-    if (node.val == val) return node;
-    if (close == null || (node.val - val).abs() < (close.val - val).abs()) {
-      close = node;
-    }
-    if (val < node.val) {
-      return _close(node.left, val, close);
+  bool _search(int val, Node? node) {
+    if (node == null) return false;
+    if (node.val == val) {
+      return true;
+    } else if (node.val > val) {
+      return _search(val, node.left);
     } else {
-      return _close(node.right, val, close);
+      return _search(val, node.right);
     }
   }
 
   void delect(int val) {
-    emoty();
     root = _delect(val, root);
   }
 
   Node? _delect(int val, Node? node) {
     if (node == null) {
-      print('value not fund');
       return null;
     }
-    if (val < node.val) {
+    if (node.val > val) {
       node.left = _delect(val, node.left);
-    } else if (val > node.val) {
+    } else if (node.val < val) {
       node.right = _delect(val, node.right);
     } else {
       if (node.left == null) {
-        return node.right;
-      } else if (node.right == null) {
         return node.left;
+      } else if (node.right == null) {
+        return node.right;
       }
-      node.val = _find(node.right)!;
+      node.val = _find(node.right);
       node.right = _delect(node.val, node.right);
     }
     return node;
   }
 
-  int? _find(Node? node) {
-    while (node?.left != null) {
-      node = node!.left;
+  int _find(Node? node) {
+    while (node!.left != null) {
+      node = node.left;
     }
-    return node!.val;
+    return node.val;
   }
 }
 
 void main() {
-  BST bst = BST();
-  bst.insert(4);
-  bst.insert(6);
-  bst.insert(3);
-  bst.insert(2);
-  bst.insert(1);
-  bst.insert(5);
-  // bst.close(-5);
-  bst.isit();
-  // bst.inOrder();
-  // bst.postOrder();
+  BST tree = BST();
+  tree.insert(5);
+  tree.insert(10);
+  tree.insert(8);
+  tree.insert(3);
+  tree.insert(1);
+  tree.insert(7);
+  tree.search(13);
+
+  tree.postOrder();
 }

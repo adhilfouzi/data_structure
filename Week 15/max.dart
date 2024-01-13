@@ -1,22 +1,26 @@
-class Maxheap {
+class MaxHeap {
   List<int> heap = [];
   void build(List<int> arr) {
     heap.addAll(arr);
-    for (int i = (heap.length ~/ 2) - 1; i >= 0; i--) {
+    for (int i = (heap.length - 1) ~/ 2; i >= 0; i--) {
       heapifydown(i);
     }
-    print('after build $heap');
+    print('after build :$heap');
   }
 
   void heapifydown(int i) {
     int l = 2 * i + 1;
-    int r = 2 * i + 2;
-    int large = i;
-    if (l < heap.length && heap[l] > heap[large]) large = l;
-    if (r < heap.length && heap[r] > heap[large]) large = r;
-    if (large != i) {
-      swap(i, large);
-      heapifydown(large);
+    int r = 2 * i + 1;
+    int largest = i;
+    if (l < heap.length && heap[l] > heap[largest]) {
+      largest = l;
+    }
+    if (r < heap.length && heap[r] > heap[largest]) {
+      largest = i;
+    }
+    if (i != largest) {
+      swap(i, largest);
+      heapifydown(largest);
     }
   }
 
@@ -29,18 +33,17 @@ class Maxheap {
   void insert(int val) {
     heap.add(val);
     heapifyup(heap.length - 1);
-    print('after insert $heap');
+    print('after insert :$heap');
   }
 
-  void heapifyup(int index) {
-    while (index >= 0) {
-      int dad = (index - 1) ~/ 2;
-      if (heap[dad] < heap[index]) {
-        swap(index, dad);
-        index = dad;
-      } else {
+  void heapifyup(int i) {
+    while (i > 0) {
+      int dad = (i - 1) ~/ 2;
+      if (heap[i] > heap[dad]) {
+        swap(i, dad);
+        i = dad;
+      } else
         break;
-      }
     }
   }
 
@@ -48,13 +51,13 @@ class Maxheap {
     heap[0] = heap.last;
     heap.removeLast();
     heapifydown(0);
-    print('after remove $heap');
+    print('after remove :$heap');
   }
 }
 
 void main() {
-  Maxheap max = Maxheap();
-  max.build([7, 9, 3, 1, 4, 6, 2, 8, 5]);
-  max.insert(0);
+  MaxHeap max = MaxHeap();
+  max.build([7, 8, 3, 2, 1, 6, 9, 4, 5, 0]);
+  max.insert(96);
   max.remove();
 }
