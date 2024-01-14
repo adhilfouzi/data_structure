@@ -1,76 +1,69 @@
-class TrieNode {
-  Map<String, TrieNode> children = {};
-  bool isEndOfWord = false;
+class Node {
+  Map<String, Node> children = {};
+  bool end = false;
 }
 
 class Trie {
-  TrieNode root = TrieNode();
-
+  Node root = Node();
   void insert(String word) {
-    TrieNode current = root;
+    Node curr = root;
     for (int i = 0; i < word.length; i++) {
-      String char = word[i];
-      current.children.putIfAbsent(char, () => TrieNode());
-      current = current.children[char]!;
+      curr.children.putIfAbsent(word[i], () => Node());
+      curr = curr.children[word[i]]!;
     }
-    current.isEndOfWord = true;
+    curr.end = true;
   }
 
   bool search(String word) {
-    TrieNode node = root;
-    for (String char in word.split('')) {
-      if (!node.children.containsKey(char)) {
-        return false;
-      }
-      node = node.children[char]!;
-    }
-    return node.isEndOfWord;
+    Node? node = getNode(word);
+    return node != null && node.end;
   }
 
-  bool startsWith(String prefix) {
-    TrieNode node = root;
-    for (String char in prefix.split('')) {
-      if (!node.children.containsKey(char)) {
-        return false;
-      }
-      node = node.children[char]!;
-    }
-    return true;
+  bool startWith(String word) {
+    Node? curr = getNode(word);
+    return curr != null;
   }
 
-  List<String> prefixSearch(String prefix) {
-    List<String> results = [];
-    TrieNode node = root;
-    for (String char in prefix.split('')) {
-      if (!node.children.containsKey(char)) {
-        return results;
+  Node? getNode(String word) {
+    Node curr = root;
+    for (int i = 0; i < word.length; i++) {
+      if (!curr.children.containsKey(word[i])) {
+        return null;
       }
-      node = node.children[char]!;
+      curr = curr.children[word[i]]!;
     }
-    _prefixHelper(node, prefix, results);
-    return results;
+    return curr;
   }
 
-  void _prefixHelper(
-      TrieNode node, String currentPrefix, List<String> results) {
-    if (node.isEndOfWord) {
-      results.add(currentPrefix);
+  void delete(String word) {
+    deleter(root, word, 0);
+  }
+
+  bool deleter(Node? node, String word, int depth) {
+    if (node == null) {
+      return false;
     }
-    for (String char in node.children.keys) {
-      _prefixHelper(node.children[char]!, currentPrefix + char, results);
+    if (depth == word.length) {
+      if (node.end) {
+        node.end = false;
+        return node.children.isEmpty;
+      }
+      return false;
     }
+    String char = word[depth];
+    bool done = deleter(node.children[char], word, depth + 1);
+    if (done) {
+      node.children.remove(char);
+      return node.children.isEmpty && !node.end;
+    }
+    return false;
   }
 }
 
 void main() {
-  Trie trie = Trie();
-  trie.insert("apple");
-  trie.insert('cat');
-  // print(trie.search("apple"));
-  // print(trie.search("app"));
-  print(trie.startsWith("app"));
-  // trie.insert("app");
-  // print(trie.search("app"));
-  // print(trie.prefixSearch("ca"));
-  // print(trie.prefixSearch("ap"));
+  Trie trir = Trie();
+  trir.insert('malayalam');
+  trir.delete('malayalam');
+  print(trir.search('mala'));
+  print(trir.startWith('mala'));
 }
