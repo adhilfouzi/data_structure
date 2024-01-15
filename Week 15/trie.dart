@@ -1,15 +1,16 @@
 class Node {
-  Map<String, Node> children = {};
+  Map<String, Node> childern = {};
   bool end = false;
 }
 
 class Trie {
   Node root = Node();
-  void insert(String word) {
+  void insert(String val) {
     Node curr = root;
-    for (int i = 0; i < word.length; i++) {
-      curr.children.putIfAbsent(word[i], () => Node());
-      curr = curr.children[word[i]]!;
+    for (int i = 0; i < val.length; i++) {
+      String char = val[i];
+      curr.childern.putIfAbsent(char, () => Node());
+      curr = curr.childern[char]!;
     }
     curr.end = true;
   }
@@ -20,50 +21,26 @@ class Trie {
   }
 
   bool startWith(String word) {
-    Node? curr = getNode(word);
-    return curr != null;
+    Node? node = getNode(word);
+    return node != null;
   }
 
   Node? getNode(String word) {
-    Node curr = root;
+    Node node = root;
     for (int i = 0; i < word.length; i++) {
-      if (!curr.children.containsKey(word[i])) {
+      String char = word[i];
+      if (!node.childern.containsKey(char)) {
         return null;
       }
-      curr = curr.children[word[i]]!;
+      node = node.childern[char]!;
     }
-    return curr;
-  }
-
-  void delete(String word) {
-    deleter(root, word, 0);
-  }
-
-  bool deleter(Node? node, String word, int depth) {
-    if (node == null) {
-      return false;
-    }
-    if (depth == word.length) {
-      if (node.end) {
-        node.end = false;
-        return node.children.isEmpty;
-      }
-      return false;
-    }
-    String char = word[depth];
-    bool done = deleter(node.children[char], word, depth + 1);
-    if (done) {
-      node.children.remove(char);
-      return node.children.isEmpty && !node.end;
-    }
-    return false;
+    return node;
   }
 }
 
 void main() {
-  Trie trir = Trie();
-  trir.insert('malayalam');
-  trir.delete('malayalam');
-  print(trir.search('mala'));
-  print(trir.startWith('mala'));
+  Trie de = Trie();
+  de.insert('malayalam');
+  print('${de.search('malayalam')}');
+  print('${de.startWith('malam')}');
 }

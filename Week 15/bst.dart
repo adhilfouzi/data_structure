@@ -14,27 +14,45 @@ class BST {
     if (node == null) {
       return Node(val);
     }
-    if (node.val > val) {
+    if (val < node.val) {
       node.left = _insert(val, node.left);
-    } else if (node.val <= val) {
+    } else {
       node.right = _insert(val, node.right);
     }
     return node;
   }
 
-  void pre() {
-    _pre(root);
+  void search(int val) {
+    print('the element $val was ${_search(val, root)}');
   }
 
-  void _pre(Node? node) {
+  bool _search(int val, Node? node) {
+    if (node == null) return false;
+
+    if (node.val == val) {
+      return true;
+    } else if (val < node.val) {
+      return _search(val, node.left);
+    } else {
+      return _search(val, node.right);
+    }
+  }
+
+  void preOrder() {
+    print('PreOrder');
+    _preOrder(root);
+  }
+
+  void _preOrder(Node? node) {
     if (node != null) {
       print(node.val);
-      _pre(node.left);
-      _pre(node.right);
+      _preOrder(node.left);
+      _preOrder(node.right);
     }
   }
 
   void inOrder() {
+    print('InOrder');
     _inOrder(root);
   }
 
@@ -47,6 +65,7 @@ class BST {
   }
 
   void postOrder() {
+    print('PostOrder');
     _postOrder(root);
   }
 
@@ -58,21 +77,6 @@ class BST {
     }
   }
 
-  void search(int val) {
-    print('$val element in tree is ${_search(val, root)}');
-  }
-
-  bool _search(int val, Node? node) {
-    if (node == null) return false;
-    if (node.val == val) {
-      return true;
-    } else if (node.val > val) {
-      return _search(val, node.left);
-    } else {
-      return _search(val, node.right);
-    }
-  }
-
   void delect(int val) {
     root = _delect(val, root);
   }
@@ -81,9 +85,9 @@ class BST {
     if (node == null) {
       return null;
     }
-    if (node.val > val) {
+    if (val < node.val) {
       node.left = _delect(val, node.left);
-    } else if (node.val < val) {
+    } else if (val > node.val) {
       node.right = _delect(val, node.right);
     } else {
       if (node.left == null) {
@@ -98,7 +102,7 @@ class BST {
   }
 
   int _find(Node? node) {
-    while (node!.left != null) {
+    while (node!.left == null) {
       node = node.left;
     }
     return node.val;
@@ -106,14 +110,20 @@ class BST {
 }
 
 void main() {
-  BST tree = BST();
-  tree.insert(5);
-  tree.insert(10);
-  tree.insert(8);
-  tree.insert(3);
-  tree.insert(1);
-  tree.insert(7);
-  tree.search(13);
+  BST bst = BST();
+  bst.insert(5);
+  bst.insert(7);
+  bst.insert(9);
+  bst.insert(8);
+  bst.insert(2);
+  bst.insert(1);
+  bst.insert(3);
+  bst.insert(6);
+  bst.insert(0);
 
-  tree.postOrder();
+  bst.inOrder();
+  bst.postOrder();
+  bst.preOrder();
+  bst.delect(6);
+  bst.search(6);
 }
