@@ -1,37 +1,38 @@
 class Graph {
   Map<int, List<int>> graph = {};
 
-  void insert(int vertex, int edge, [bool bi = false]) {
+  insert(int vertex, int edge, [bool bidir = false]) {
     if (!graph.containsKey(vertex)) {
       graph[vertex] = [];
     }
     if (!graph.containsKey(edge)) {
       graph[edge] = [];
     }
-    graph[vertex]?.add(edge);
-    if (bi) {
-      graph[edge]?.add(vertex);
+    graph[vertex]!.add(edge);
+    if (bidir) {
+      graph[edge]!.add(vertex);
     }
   }
 
-  void showEdges(int vertex) {
+  showEdges(int vertex) {
     if (graph.containsKey(vertex)) {
       print(graph[vertex]);
     } else {
-      print('value not found');
+      print('not found');
     }
   }
 
-  void bfs(int vertex) {
+  bfs(int vertex) {
     Set<int> visited = {};
     List<int> queue = [];
-    visited.add(vertex);
-    queue.add(vertex);
-    while (queue.isNotEmpty) {
-      int curr = queue[0];
-      queue.removeAt(0);
 
-      for (int i in graph[curr]!) {
+    queue.add(vertex);
+    visited.add(vertex);
+
+    while (queue.isNotEmpty) {
+      int current = queue[0];
+      queue.removeAt(0);
+      for (int i in graph[current]!) {
         if (!visited.contains(i)) {
           visited.add(i);
           queue.add(i);
@@ -40,15 +41,45 @@ class Graph {
     }
     print(visited);
   }
+
+  dfs(int vertex) {
+    if (graph.containsKey(vertex)) {
+      Set<int> visited = {};
+      dfshelper(vertex, visited);
+      print(visited);
+    } else {
+      print('vertex not found in graph');
+    }
+  }
+
+  dfshelper(int vertex, Set<int> visited) {
+    visited.add(vertex);
+    for (int i in graph[vertex]!) {
+      if (!visited.contains(i)) {
+        dfshelper(i, visited);
+      }
+    }
+  }
+
+  void display() {
+    print("{");
+    graph.forEach((key, edges) {
+      print("$key : $edges");
+    });
+    print("}");
+  }
 }
 
-void main() {
+main() {
   Graph graph = Graph();
-  graph.insert(15, 21);
-  graph.insert(15, 3);
-  graph.insert(15, 4);
-  graph.insert(15, 25);
-  graph.insert(15, 14);
-  graph.insert(15, 8);
-  graph.bfs(8);
+  graph.insert(10, 14);
+  graph.insert(10, 15);
+  graph.insert(10, 16);
+  graph.insert(10, 17);
+  graph.insert(10, 18);
+  graph.insert(17, 20);
+  graph.insert(17, 21);
+  // graph.bfs(10);
+  graph.dfs(10);
+  // graph.display();
 }

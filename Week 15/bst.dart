@@ -11,9 +11,8 @@ class BST {
   }
 
   Node? _insert(int val, Node? node) {
-    if (node == null) {
-      return Node(val);
-    }
+    if (node == null) return Node(val);
+
     if (val < node.val) {
       node.left = _insert(val, node.left);
     } else {
@@ -23,19 +22,50 @@ class BST {
   }
 
   void search(int val) {
-    print('the element $val was ${_search(val, root)}');
+    print('$val element is  ${_search(val, root)}');
   }
 
   bool _search(int val, Node? node) {
     if (node == null) return false;
-
     if (node.val == val) {
       return true;
-    } else if (val < node.val) {
+    } else if (node.val > val) {
       return _search(val, node.left);
     } else {
       return _search(val, node.right);
     }
+  }
+
+  void delect(int val) {
+    root = _delect(val, root);
+  }
+
+  Node? _delect(int val, Node? node) {
+    if (node == null) {
+      return null;
+    }
+
+    if (node.val > val) {
+      node.left = _delect(val, node.left);
+    } else if (node.val < val) {
+      node.right = _delect(val, node.right);
+    } else {
+      if (node.left == null) {
+        return node.right;
+      } else if (node.right == null) {
+        return node.left;
+      }
+      node.val = _find(node.right);
+      node.right = _delect(val, node.right);
+    }
+    return node;
+  }
+
+  int _find(Node? node) {
+    while (node!.left != null) {
+      node = node.left;
+    }
+    return node.val;
   }
 
   void preOrder() {
@@ -76,54 +106,19 @@ class BST {
       print(node.val);
     }
   }
-
-  void delect(int val) {
-    root = _delect(val, root);
-  }
-
-  Node? _delect(int val, Node? node) {
-    if (node == null) {
-      return null;
-    }
-    if (val < node.val) {
-      node.left = _delect(val, node.left);
-    } else if (val > node.val) {
-      node.right = _delect(val, node.right);
-    } else {
-      if (node.left == null) {
-        return node.left;
-      } else if (node.right == null) {
-        return node.right;
-      }
-      node.val = _find(node.right);
-      node.right = _delect(node.val, node.right);
-    }
-    return node;
-  }
-
-  int _find(Node? node) {
-    while (node!.left == null) {
-      node = node.left;
-    }
-    return node.val;
-  }
 }
 
 void main() {
-  BST bst = BST();
-  bst.insert(5);
-  bst.insert(7);
-  bst.insert(9);
-  bst.insert(8);
-  bst.insert(2);
-  bst.insert(1);
-  bst.insert(3);
-  bst.insert(6);
-  bst.insert(0);
-
-  bst.inOrder();
-  bst.postOrder();
-  bst.preOrder();
-  bst.delect(6);
-  bst.search(6);
+  BST bts = BST();
+  bts.insert(10);
+  bts.insert(5);
+  bts.insert(8);
+  bts.insert(3);
+  bts.insert(9);
+  bts.insert(4);
+  // bts.delect(9);
+  // bts.preOrder();
+  // bts.inOrder();
+  // bts.postOrder();
+  bts.search(100);
 }
